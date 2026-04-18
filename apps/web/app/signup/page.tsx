@@ -1,28 +1,73 @@
 "use client"
-import { Input } from "@/components/ui/input";
-import { signIn, signOut, useSession } from "next-auth/react";
 
+import { Input } from "@/components/ui/input"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
-export default function SignUp() {
+export default function LoginPage() {
+  const router = useRouter()
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
+  return (
+    <div>
+      <h2>Signup</h2>
 
-    return (
-        <div className="">
-            <div className="">
-                <h1>Create your account</h1>
-                <p>Welcome! Please fill in the details to get started.</p>
-            </div>
-            <div>
+      {/* OAuth */}
+      <button onClick={() => signIn("google")} className="">
+        Continue with Google
+      </button>
 
-            </div>
-            {/* <br>or</br> */}
-            <div className="">
-                <div>
-                    <label htmlFor="">Email Address <span>Use Phone instead</span></label>
-                    <Input />
-                </div>
-                <button>Continue</button>
-            </div>
-        </div>
-    )
+      <br />
+
+      <button onClick={() => signIn("github")}>
+        Continue with GitHub
+      </button>
+
+      <br /><br />
+
+      {/* Credentials */}
+      <Input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+
+      <br />
+
+      <Input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <br />
+
+      <button
+        onClick={async () => {
+          setLoading(true)
+
+          const res = await signIn("credentials", {
+            username,
+            password,
+            redirect: false,
+          })
+
+          setLoading(false)
+
+          if (res?.error) {
+            alert("Invalid credentials")
+          } else {
+            router.push("/")
+          }
+        }}
+        className="bg-purple-600 p-2 rounded-md">
+        {loading ? "Logging in..." : "Login with Email"}
+      </button>
+    </div>
+  )
 }
