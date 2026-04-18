@@ -2,6 +2,7 @@ import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
 import Joblist from "../components/jobs/JobList";
+import { Navbar } from "@/components/layout/Navbar";
 
 // type Props = Omit<ImageProps, "src"> & {
 //   srcLight: string;
@@ -22,8 +23,10 @@ import Joblist from "../components/jobs/JobList";
 export default function Home() {
   return (
     <div>
-        <h1>Jobs</h1>
-        <Joblist   />
+      <Navbar/>
+      <div className="pt-10">
+          <Joblist   />
+      </div>
     </div>
   );
 }

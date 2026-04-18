@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Figtree } from "next/font/google";
 import { cn } from "@/lib/utils";
-
+import { Providers } from "@/app/Provider";
 const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = localFont({
@@ -27,8 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans", figtree.variable)}>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-black text-white`}>
+        <Providers>
+            {children}
+        </Providers>
       </body>
     </html>
   );
