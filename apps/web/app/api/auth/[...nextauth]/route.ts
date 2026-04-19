@@ -5,19 +5,6 @@ import GitHubProvider from "next-auth/providers/github"
 
 const handler  = NextAuth({
   providers: [
-    CredentialsProvider({
-        name: 'Credentials',
-        credentials: {
-          username: { label: 'email', type: 'text', placeholder: '' },
-          password: { label: 'password', type: 'password', placeholder: '' },
-        },
-        async authorize(credentials: any) {
-            if (credentials?.username == 'Admin' && credentials?.password == '123') {
-                return {id:"1", name: "Admin"}
-            }
-            return null;
-        },
-      }),
         GoogleProvider({
         clientId: process.env.GOOGLE_ID as string,
         clientSecret: process.env.GOOGLE_SECRET as string,
