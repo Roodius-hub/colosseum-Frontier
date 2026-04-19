@@ -2,7 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import logo from "../../public/frontier-Roodius.png";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
 import Logosvg from "@/public/logo";
-
+import LoginPage from "@/app/signup/page";
+import { FaWallet } from "react-icons/fa"
 
 export function Navbar() {
 
@@ -34,7 +35,10 @@ export function Navbar() {
                             <a href="#" className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Post Job</a>
                         </li>
                         <li>
-                            <a href="#" className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Connect Wallet</a>
+                            <a href="#" className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Connect Wallet <FaWallet/></a>
+                        </li>
+                        <li>
+                            <LoginPage />
                         </li>
                     </ul>
                 </div>
