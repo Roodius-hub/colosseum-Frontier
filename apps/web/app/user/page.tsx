@@ -2,6 +2,9 @@
 
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useState } from "react"
+import { FaGoogle } from 'react-icons/fa'; // Font Awesome version
+import { FaGithub } from "react-icons/fa";
+
 
 export default function UserMenu() {
   const { data: session, status } = useSession()
@@ -15,16 +18,16 @@ export default function UserMenu() {
       <div className="flex gap-2">
         <button
           onClick={() => signIn("google")}
-          className="px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] text-white hover:bg-[#222]"
+          className="flex justify-center items-center gap-1 px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] text-white hover:bg-[#222]"
         >
-          Google
+          <FaGoogle/>oogle
         </button>
 
         <button
           onClick={() => signIn("github")}
-          className="px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] text-white hover:bg-[#222]"
+          className="flex justify-center items-center gap-1 px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] text-white hover:bg-[#222]"
         >
-          GitHub
+          <FaGithub/>GitHub
         </button>
       </div>
     )

@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: myapp
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/val/lib/postgresql/data
+
+  backend:
+    build: 
+      context: .
+      dockerfile: docker/dockerfile.api
+    container_name: backend-app
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    restart: always
+
+  web:
+    build: 
+      context: .
+      dockerfile: docker/dockerfile.web
+    container_name: web-app
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - backend
+    restart: always
+
+  volumes:
+    db_data:

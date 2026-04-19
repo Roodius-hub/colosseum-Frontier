@@ -1,0 +1,26 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy root files
+COPY package.json package-lock.json turbo.json tsconfig.json ./
+
+# Copy monorepo
+COPY apps ./apps
+COPY packages ./packages
+
+# Install deps
+RUN npm install
+
+# Generate Prisma client
+RUN npm run db:generate || true
+
+# Move into web app
+WORKDIR /app/apps/web
+
+# Build Next.js app
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]

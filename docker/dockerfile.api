@@ -1,0 +1,23 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy root config
+COPY package.json package-lock.json turbo.json tsconfig.json ./
+
+# Copy needed code
+COPY apps/api ./apps/api
+COPY packages ./packages
+
+# Install deps
+RUN npm install
+
+# Move into API
+WORKDIR /app/apps/api
+
+# Build (if needed)
+RUN npm run build || true
+
+EXPOSE 3001
+
+CMD ["npm", "run", "dev"]

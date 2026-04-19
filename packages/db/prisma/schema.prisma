@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id        String   @id @default(cuid())
+  name    String?
+  email   String? @unique
+  address   Address?
+
+  // 🔥 ADD THESE
+  jobs      Job[] @relation("UserJobs")
+  bids      Bid[] @relation("UserBids")
+
+}
+
+model Address {
+  id        String @id @default(cuid())
+
+  userId    String @unique
+  user      User   @relation(fields: [userId], references: [id])
+
+  city      String?
+  state     String?
+  country   String?
+  zipCode   String?
+}
+
+model Job {
+  id          String   @id @default(cuid())
+
+  title       String
+  description String
+  budget      Float
+
+  clientId    String
+  client      User     @relation("UserJobs", fields: [clientId], references: [id])
+
+  bids        Bid[]
+
+  status      JobStatus @default(OPEN)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Bid {
+  id           String   @id @default(cuid())
+
+  amount       Float
+  message      String?
+
+  jobId        String
+  job          Job      @relation(fields: [jobId], references: [id])
+
+  freelancerId String
+  freelancer   User     @relation("UserBids", fields: [freelancerId], references: [id])
+
+  status       BidStatus @default(PENDING)
+
+  createdAt    DateTime  @default(now())
+}
+
+
+enum JobStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum BidStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
