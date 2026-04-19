@@ -17,8 +17,8 @@ model User {
   id        String   @id @default(cuid())
   name    String?
   email   String? @unique
-  address   Address?
-
+  address  Address?
+  skill    Skill[] 
   // 🔥 ADD THESE
   jobs      Job[] @relation("UserJobs")
   bids      Bid[] @relation("UserBids")
@@ -43,7 +43,7 @@ model Job {
   title       String
   description String
   budget      Float
-
+  
   clientId    String
   client      User     @relation("UserJobs", fields: [clientId], references: [id])
 
