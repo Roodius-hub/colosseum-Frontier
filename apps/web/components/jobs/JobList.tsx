@@ -9,10 +9,12 @@ export default function Joblist() {
     // const {jobs} = useJobs();
 
     return (    
-        <div className="grid grid-cols-4 m-20 ">
-            {jobs.map((job:any, i) => (
-                <JobCard key={i} title={job.title}  description={job.description} budget={job.budget} _id={job._id  }/>
-            ))}
+        <div className="px-10 py-10 max-w-7xl mx-auto overflow-visible">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {jobs.map((job: any) => (
+            <JobCard key={job._id} {...job} />
+          ))}
+        </div>
         </div>
     )
 }

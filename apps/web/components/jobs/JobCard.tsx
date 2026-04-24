@@ -9,26 +9,42 @@ export default function JobCard(job : any) {
     const router = useRouter();
 
   return (
-    <Card className="p-4 hover:shadow-lg transition bg-[#1C1C1C] border-none">
-      <CardContent className="space-y-2">
-        <h2 className="text-lg font-semibold">{job.title}</h2>
+    <Card className="h-full bg-[#1a1a1a] rounded-xl ring-0 border-0 focus-visible:ring-offset-0 focus-visible:ring-0
+  transition-all duration-300 hover:-translate-y-1  hover:shadow-[0_10px_40px_rgba(0,0,0,0.2),0_0_35px_rgba(30,208,171,0.25)]
+">
 
-        <p className="text-sm text-gray-300">
-          {job.description}
-        </p>
+  <CardContent className="h-full flex flex-col p-5">
 
-        <div className="flex justify-between items-center">
-          <span className="font-bold text-green-500x">
-            ₹{job.budget}
-          </span>
+    {/* Top */}
+    <div className="space-y-3">
+      <h2 className="text-lg font-semibold text-white line-clamp-1">
+        {job.title}
+      </h2>
 
-          <Button onClick={(e) => {
-            e.stopPropagation();
+      <p className="text-sm text-gray-400 line-clamp-3 leading-relaxed">
+        {job.description}
+      </p>
+    </div>
 
-            router.push(`apply/${job._id}`)
-          }} className="text-[#1ED0AB] hover:cursor-pointer text-sm hover:text-white flex items-center gap-2 px-4 py-2 rounded-lg bg-[#04312C] border border-[#2a2a2a] text-white hover:bg-[#222] transition">Apply</Button>
-        </div>
-      </CardContent>
-    </Card>
+    {/* Bottom */}
+    <div className="mt-auto flex justify-between items-center pt-6">
+      <span className="font-semibold text-[#1ED0AB] text-sm">
+        ₹{job.budget}
+      </span>
+
+      <Button
+        onClick={(e) => {
+          e.stopPropagation();
+          router.push(`/apply/${job._id}`);
+        }}
+        className="text-xs px-4 py-2 rounded-md bg-[#111] border border-[#2a2a2a] 
+        text-gray-300 hover:bg-[#1f1f1f] hover:text-white transition"
+      >
+        Apply
+      </Button>
+    </div>
+
+  </CardContent>
+</Card>
   );
 }

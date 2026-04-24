@@ -26,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", figtree.variable)}>
-      <body className={`${geistSans.variable} ${geistMono.variable} bg-black text-white`}>
+    <html lang="en" className={cn("font-sans", figtree.variable) + "dark"}>
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-[black] text-white`}>
         <Providers>
             {children}
         </Providers>
