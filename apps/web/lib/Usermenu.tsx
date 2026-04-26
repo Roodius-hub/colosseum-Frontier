@@ -17,10 +17,10 @@ export default function UserMenu() {
     return (
       <div className="flex gap-2">
         <button
-          onClick={() => signIn("google")}
+          onClick={() =>  signIn("google")}
           className="flex justify-center items-center gap-1 px-4 py-2 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] text-white hover:bg-[#222]"
         >
-          <FaGoogle/>oogle
+          <FaGoogle/>Google
         </button>
 
         <button

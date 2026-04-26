@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github"
+import {prisma} from "@repo/db";
 
 const handler  = NextAuth({
   providers: [
@@ -20,13 +21,36 @@ const handler  = NextAuth({
       jwt: async ({ user, token }: any) => {
 	      if (user) {
 	          token.uid = user.id;
+            token.name = token.name;
+            token.email = token.email;
 	      }
 	      return token;
       },
-    session: ({ session, token, user }: any) => {
-        if (session.user) {
+    session: async ({ session, token, user }: any) => {
+        if (token) {
             session.user.id = token.uid
+            session.user.name = token.name;
+            session.user.email = token.email;
         }
+          try {
+            const response = await prisma.user.findUnique({
+               where: {
+                email:session.user.email
+               }
+            })
+
+            if (!response) {
+              const user = await prisma.user.create({
+                data:{
+                  name:session.user.name,
+                  email:session.user.email,
+                }
+              })
+            }
+          } catch (error) {
+            console.log({"error" : error});
+          }
+
         return session
     }
   },

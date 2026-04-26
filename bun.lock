@@ -13,7 +13,6 @@
     "apps/backend": {
       "name": "backend",
       "dependencies": {
-        "backend": ".",
         "@repo/db": "*",
         "@types/bcrypt": "^6.0.0",
         "@types/express": "^5.0.6",

@@ -4,7 +4,7 @@ import { FaWallet } from "react-icons/fa"
 import Logosvg from "@/public/logo"
 import { useRouter } from "next/navigation"
 import AuthButton from "@/lib/Authbutton"
-import UserMenu from "@/app/user/page"
+import UserMenu from "@/lib/Usermenu"
 
 export function Navbar() {
   const router = useRouter()
