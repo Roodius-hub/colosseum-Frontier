@@ -5,18 +5,18 @@ import { checkUserExisi } from "../middlewares/user";
 const router = express.Router();
 
 //get
-router.get("/users/:id", checkUserExisi ,getUser);
+router.post("/get", checkUserExisi ,getUser);
 
 
 //update
-router.patch("/users/:id",checkUserExisi ,updateUser );
+router.patch("/update/:id",checkUserExisi ,updateUser );
 
 
 // address 
-router.post("/user/address", checkUserExisi , UserAddress);
+router.post("/address", checkUserExisi , UserAddress);
 
 // skills
-router.post("/users/skills", checkUserExisi, CreateSkill);
+router.post("/skills", checkUserExisi, CreateSkill);
 
 export default router;
 

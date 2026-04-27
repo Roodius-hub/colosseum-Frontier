@@ -1,33 +1,34 @@
 import { reqresTypes } from "../types/userTypes"
 import { db } from "../db/db"
 import { jwtVerify } from "jose";
+import { NextFunction } from "express";
+import type { Request, Response } from "express";
+import { getToken } from "next-auth/jwt"
 
 const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET);
 // console.log(process.env.NEXTAUTH_SECRET)
 
 // middleware
-export const checkUserExisi = async ({req,res, next}:reqresTypes) => {
+export const checkUserExisi = async (req:Request,res:Response,next:NextFunction) => {
+    const token = await getToken({
+        req,
+        secret:process.env.NEXTAUTH_SECRET
+    })
 
-    try {
-        const token = req.cookies["next-auth.session-token"] ||
-                      req.cookies["__Secure-next-auth.session-token"];
+        // const token = req.cookies["next-auth.session-token"] ||
+        //               req.cookies["__Secure-next-auth.session-token"] ||
+        //               req.cookies["__Host-next-auth.session-token"]; 
+        console.log(token)
         if (!token) {
             return res.status(401).json({message: "Unautherized !"});
         }
 
         // verfify 
-        const { payload } = await jwtVerify(token, secret);
+        // const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.NEXTAUTH_SECRET));
 
         req.user = {
-            id: payload.sub,  //user.id
-            email: payload.email,
+            id: token.sub as string,  //user.id
         };
 
-        next();
-
-    } catch (error) {
-        console.log(error);
-        return res.status(401).json({message: "Invalid token"})
-    }
-    
+        next();   
 }
