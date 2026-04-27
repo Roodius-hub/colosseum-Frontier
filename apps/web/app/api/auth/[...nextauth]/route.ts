@@ -27,32 +27,34 @@ const handler  = NextAuth({
 	      return token;
       },
     session: async ({ session, token, user }: any) => {
-        if (token) {
-            session.user.id = token.uid
+        if (session.user && token) {
+            session.user.id = token.sub
             session.user.name = token.name;
             session.user.email = token.email;
         }
-          try {
-            const response = await prisma.user.findUnique({
-               where: {
-                email:session.user.email
-               }
-            })
+        return session;
+    }, 
+    signIn: async ({ user }) => {
+      try {
+        const existing = await prisma.user.findUnique({
+          where: { email: user.email! },
+        });
 
-            if (!response) {
-              const user = await prisma.user.create({
-                data:{
-                  name:session.user.name,
-                  email:session.user.email,
-                }
-              })
-            }
-          } catch (error) {
-            console.log({"error" : error});
-          }
+        if (!existing) {
+          await prisma.user.create({
+            data: {
+              name: user.name,
+              email: user.email,
+            },
+          });
+        }
 
-        return session
-    }
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
   },
 })
 
