@@ -99,7 +99,7 @@ export const UserAddress = async ({req , res } :reqresTypes) => {
 }
 
 
-
+// create skills 
 export const CreateSkill =  async ({req,res}: reqresTypes) => {
     const userid = req.user?.id;
     const skills: string[] = req.body.skills;
@@ -139,12 +139,11 @@ export const CreateSkill =  async ({req,res}: reqresTypes) => {
         })
       )
     );
-
+    
         return res.status(200).json({ message: "Skills updated" });
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error: "Failed to update skills" });
     }
-
 }

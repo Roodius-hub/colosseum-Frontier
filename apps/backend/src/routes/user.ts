@@ -9,7 +9,7 @@ router.post("/get", checkUserExisi ,getUser);
 
 
 //update
-router.patch("/update/:id",checkUserExisi ,updateUser );
+router.patch("/update",checkUserExisi ,updateUser );
 
 
 // address 

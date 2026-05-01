@@ -18,4 +18,4 @@
 // //Reject bid
 // router.post("/bids/:id/reject", );
 
-// module.exports = router;
+// export default router;
