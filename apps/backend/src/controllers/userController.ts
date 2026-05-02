@@ -11,7 +11,7 @@ export const getUser = async (req:Request, res:Response) => {
     try {
         const user = await db.user.findUnique({
             where:{ 
-                googleId: id, 
+                id: id, 
             },  
         });
 
@@ -28,11 +28,14 @@ export const getUser = async (req:Request, res:Response) => {
 }
 
 // update user 
-export const updateUser = async ({req, res}:reqresTypes) => {
+export const updateUser = async (req:Request, res:Response) => {
+    if (!req.user?.id) {
+        return res.status(401).json({ message: "User not authenticated" });
+    }
     const id:string = req.user?.id as string;
-    const name:string = req.body.name;
-    const email:string = req.body.email; 
-
+    const name:string = req.body.name as string;
+    const email:string = req.body.email as string; 
+    // console.log(id)
     try {
         const response = await db.user.update({
             where:{
@@ -42,7 +45,7 @@ export const updateUser = async ({req, res}:reqresTypes) => {
                 name:name,
                 email:email,
             }
-        })
+        });
 
         return res.status(200).json({
             message: "User updated successfully",
