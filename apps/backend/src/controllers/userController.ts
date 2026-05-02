@@ -1,15 +1,17 @@
 import { reqresTypes } from "../types/userTypes"
 import { db } from "../db/db"
-
+import type {Request, Response} from "express"
 
 // getting user
-export const getUser = async ({req,res}:reqresTypes) => {
+export const getUser = async (req:Request, res:Response) => {
+    if (!req.user?.id) {
+        return res.status(401).json({ message: "User not authenticated" });
+    }
     const id:string = req.user?.id as string;
-
     try {
         const user = await db.user.findUnique({
             where:{ 
-                id: id, 
+                googleId: id, 
             },  
         });
 
@@ -17,7 +19,7 @@ export const getUser = async ({req,res}:reqresTypes) => {
             return res.status(200).json({"User details":user});
         }
 
-        res.status(404).json({"User not found: ": id})
+        res.status(404).json({"User not found: ": user})
         
     } catch (error) {
         console.log("error", error);

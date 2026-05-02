@@ -23,6 +23,7 @@ const handler  = NextAuth({
   },
     callbacks: {
       jwt: async ({ user, token }: any) => {
+        console.log(token);
 	      if (user) {
 	          token.uid = user.id;
             token.name = token.name;
@@ -32,7 +33,7 @@ const handler  = NextAuth({
       },
     session: async ({ session, token, user }: any) => {
         if (session.user && token) {
-            session.user.id = token.sub
+            session.user.id = token.sub as string;
             session.user.name = token.name;
             session.user.email = token.email;
         }
@@ -47,6 +48,7 @@ const handler  = NextAuth({
         if (!existing) {
           await prisma.user.create({
             data: {
+              id:user.id,
               name: user.name,
               email: user.email,
             },
